@@ -20,16 +20,16 @@ def servo_angle_to_pulse_width(angle):
 # C4, D4, E4, F4, G4, A4, B4, C5 음계를 지원해야 합니다.
 def note_to_frequency(note):
     notes = {
-        "C4": 523,
-        "D4": 587,
-        "E4": 659,
-        "F4": 698,
-        "G4": 784,
-        "A4": 880,
-        "B4": 988,
-        "C5": 1047,
+        "C4": 262,
+        "D4": 294,
+        "E4": 330,
+        "F4": 349,
+        "G4": 392,
+        "A4": 440,
+        "B4": 494,
+        "C5": 523,
     }
-    return notes[note]
+    return notes.get(note, 0)
 
 
 # 문제 3.
@@ -65,8 +65,7 @@ def direction_to_twist(direction):
         "right": (0.0, -1.0),
         "stop": (0.0, 0.0),
     }
-
-    return mapping[direction]
+    return mapping.get(direction, (0.0, 0.0))
 
 
 # 문제 5.
@@ -80,10 +79,10 @@ def direction_to_twist(direction):
 #
 # 반환값은 (left_speed, right_speed) 튜플입니다.
 def twist_to_wheel_speed(linear_x, angular_z):
-    left_speed = linear_x - angular_z
-    right_speed = linear_x + angular_z
+    left_speed = (linear_x - angular_z) * 100
+    right_speed = (linear_x + angular_z) * 100
 
     left_speed = max(-100, min(100, left_speed))
     right_speed = max(-100, min(100, right_speed))
 
-    return (left_speed, right_speed)
+    return (int(left_speed), int(right_speed))
